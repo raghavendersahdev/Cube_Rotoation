@@ -16,7 +16,7 @@ FIND_PACKAGE( MRPT REQUIRED base;gui) # WARNING: Add all the MRPT libs used by y
  
 # Declare the target (an executable)
 ADD_EXECUTABLE(mrpt_cube_move
-test.cpp
+move_cube.cpp
 )
 TARGET_LINK_LIBRARIES(mrpt_cube_move ${MRPT_LIBS})
  
