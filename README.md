@@ -4,6 +4,7 @@ This repository contains simple cube rotations and translations using the openGL
 To run the code follow the instructions:
 
 ```
+  $ cd PROJECT_DIR
   $ mkdir build
   $ cd build
   $ cmake ..
