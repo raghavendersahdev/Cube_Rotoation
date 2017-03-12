@@ -17,7 +17,7 @@ using namespace mrpt::math;
 using namespace mrpt::utils;
 
 //Creat window
-CDisplayWindow3D	win("Raghavender Sahdev OpenGL c++ demo",1080,720);
+CDisplayWindow3D	win("Raghavender Sahdev MRPT / OpenGL c++ demo",1080,720);
 COpenGLScenePtr &theScene = win.get3DSceneAndLock();
 
 
