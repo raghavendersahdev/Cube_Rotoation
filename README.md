@@ -25,7 +25,7 @@ w,s = move the cube along along +/- z axis  <br/>
 
 * for moving the robot (Pioneer 3AT), use the following keys:
 
-up : move robot forward
-down : move robot backward
-left : turn robot leftwards
-right : turn robot rightwards
+up : move robot forward    <br/>
+down : move robot backward <br/>
+left : turn robot leftwards <br/>
+right : turn robot rightwards <br/>
