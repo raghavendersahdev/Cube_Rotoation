@@ -1,6 +1,7 @@
 # Cube_Rotoation
 
-This repository contains simple cube rotations and translations using the openGL and the MRPT api <br/>
+This repository contains simple cube rotations and translations using the openGL and the MRPT api, It also contains a pioneer robot which can be navigated on the 2D ground plane using the the arrow keys <br/>
+
 To run the code follow the instructions:
 
 ```
@@ -18,6 +19,13 @@ w,s = move the cube along along +/- z axis  <br/>
 
 * for rotations, use the following keys:
 
-4, 6 : roll (increase, decrease)  <br/>
-8, 2 : pitch (increase, decrease) <br/>
-1, 0 : yaw (increase, decrease)   <br/>
+8, 2 : yaw (increase, decrease)  <br/>
+4, 6 : pitch (increase, decrease) <br/>
+1, 0 : roll (increase, decrease)   <br/>
+
+* for moving the robot (Pioneer 3AT), use the following keys:
+
+up : move robot forward
+down : move robot backward
+left : turn robot leftwards
+right : turn robot rightwards
