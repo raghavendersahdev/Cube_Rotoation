@@ -20,4 +20,4 @@ w,s = move the cube along along +/- z axis  <br/>
 
 4, 6 : roll (increase, decrease)  <br/>
 8, 2 : pitch (increase, decrease) <br/>
-1, 2 : yaw (increase, decrease)   <br/>
+1, 0 : yaw (increase, decrease)   <br/>
