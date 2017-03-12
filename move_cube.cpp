@@ -1,8 +1,3 @@
-/**
-@author raghavender sahdev
-*/
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <mrpt/gui/include/mrpt/gui.h>
@@ -29,12 +24,22 @@ CDisplayWindow3D	win("Raghavender Sahdev OpenGL cubes",1080,720);
 COpenGLScenePtr &theScene = win.get3DSceneAndLock();
 
 double trans_x=0, trans_y=0, trans_z=0;
-double roll=0, pitch=0, yaw=0;
+double yaw=0, pitch=0, roll=0;
 opengl::CBoxPtr cube_obj = opengl::CBox::Create(TPoint3D(0,0,0),TPoint3D(2,2,2), true, 5.0);
 opengl::CTextPtr cube_label = opengl::CText::Create("Hollow Cube");
 
 
-mrpt::poses::CPose3D cube_pose(trans_x, trans_y, trans_z, roll, pitch, yaw);
+mrpt::poses::CPose3D cube_pose(trans_x, trans_y, trans_z, yaw, pitch, roll);
+
+
+double x_robot = 6 , y_robot = 0, yaw_robot = 0, update_dist = 0.2, update_yaw = 0.2;
+opengl::CSetOfObjectsPtr pioneer = opengl::stock_objects::RobotPioneer();
+mrpt::poses::CPose3D robot_pose(x_robot, y_robot, 0, yaw_robot, 0, 0); // 2D plane movement
+mrpt::poses::CPose3D camera_pose(x_robot, y_robot, 0, yaw_robot, 0, 0); // 2D plane movement
+
+//create bumblebee camera and robot label here
+opengl::CSetOfObjectsPtr bumblebee2 = opengl::stock_objects::Hokuyo_URG();
+opengl::CTextPtr pioneer_label = opengl::CText::Create("Pioneer 3AT");
 
 
 class MyObserver : public mrpt::utils::CObserver
@@ -45,11 +50,13 @@ protected:
        if (e.isOfType<mrptEventWindowChar>())
         {
             const mrptEventWindowChar &ee = static_cast<const mrptEventWindowChar &>(e);
-            cout << "[MyObserver] Char event received from: " << ee.source_object<< ". Char code: " <<  ee.char_code << " modif: " << ee.key_modifiers << "\n";
+            cout << "character entered " << ee.source_object<< ". Char code: " <<  ee.char_code << endl;
             key_code = ee.char_code;
 
             cube_obj->setLocation(0,0,0);
-            cube_obj->setColor(1,0,0);
+            cube_obj->setColor(1,1,0);
+
+
 
             //a = 97, d=100, s=115, w=119, z=122, x=120
             //0=48, 1=49,2=50,3=51,4=52,5=53,6=54,7=55,8=56,9=57
@@ -68,9 +75,9 @@ protected:
                 trans_y = trans_y - update1;
 
             if(key_code == 56)
-                roll = roll + update2;
+                yaw = yaw + update2;
             if(key_code == 50)
-                roll = roll - update2;
+                yaw = yaw - update2;
             if(key_code == 52)
                 pitch = pitch + update2;
             if(key_code == 54)
@@ -82,12 +89,49 @@ protected:
 
 
 
-            cube_pose.setFromValues(trans_x, trans_y, trans_z, roll, pitch, yaw);
+
+            cube_pose.setFromValues(trans_x, trans_y, trans_z, yaw, pitch, roll);
             cube_obj->setPose(cube_pose);
             theScene->insert( cube_obj );
 
             cube_label->setPose(cube_pose);//setLocation(cubes_x,0,0);
             theScene->insert(cube_label);
+
+
+            cout << yaw << endl << cube_obj->getPose() << endl;
+
+            //up= 315, down=317, right=316, left=314
+            if(key_code == 315)
+            {
+                x_robot = x_robot + update_dist * cos(yaw_robot);
+                y_robot = y_robot + update_dist * sin(yaw_robot);
+            }
+            if(key_code == 317)
+            {
+                x_robot = x_robot - update_dist * cos(yaw_robot);
+                y_robot = y_robot - update_dist * sin(yaw_robot);
+            }
+            if(key_code == 316)
+                yaw_robot -= update_yaw;
+            if(key_code == 314)
+                yaw_robot += update_yaw;
+
+           robot_pose.setFromValues(x_robot, y_robot, 0, yaw_robot, 0, 0);
+           pioneer->setPose(robot_pose);
+           pioneer->setScale(4,4,4);
+           theScene->insert( pioneer );
+           //insert the label with the robot
+           pioneer_label->setPose(robot_pose);
+           theScene->insert(pioneer_label);
+
+           camera_pose.setFromValues(x_robot,y_robot, 1, yaw_robot+1.6, 0, 1.6);
+           bumblebee2->setPose(camera_pose);
+           bumblebee2->setScale(4,4,4);
+           theScene->insert( bumblebee2 );
+
+
+
+
         }        
     }
 public:
@@ -105,10 +149,6 @@ int main()
     int n_cubes;
     cout << "enter number of cubes: ";
     cin >> n_cubes;
-
-
-
-
 
     // XY Grid
     int x_max =14,y_max=14, z_max=14;
@@ -129,22 +169,13 @@ int main()
     theScene->insert( axis_xyz );
 
 
-    int cubes_x=0;//, cube2_x=4;
-    // Box
-    {
-        opengl::CBoxPtr obj2 = opengl::CBox::Create(TPoint3D(0,0,0),TPoint3D(2,2,2), false);
-        obj2->setLocation(cubes_x,6,0);
-        obj2->setLineWidth(4);
-        obj2->setColor(1,0,0);
-        obj2->enableBoxBorder(true);
-        theScene->insert( obj2 );
 
 
-        opengl::CTextPtr label_cube2 = opengl::CText::Create("Solid Cube");
-        label_cube2->setColorR(1);
-        label_cube2->setLocation(cubes_x,6,0);
-        theScene->insert(label_cube2);
-    }
+
+
+
+
+
 
     win.setCameraZoom(100);
     win.unlockAccess3DScene();
