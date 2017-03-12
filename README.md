@@ -1,7 +1,7 @@
 # Cube_Rotoation
 
-This repository contains simple cube rotations and translations using the openGL and the MRPT api
-* To run the code follow the instructions:
+This repository contains simple cube rotations and translations using the openGL and the MRPT api <br/>
+To run the code follow the instructions:
 
 ```
   $ mkdir build
@@ -10,7 +10,7 @@ This repository contains simple cube rotations and translations using the openGL
   $ make 
 ```
 
-* for translations use the following keys:
+* for translations use the following keys:  <br/>
 a,d = move the cube along along +/- x axis  <br/>
 z,x = move the cube along along +/- y axis  <br/>
 w,s = move the cube along along +/- z axis  <br/>
