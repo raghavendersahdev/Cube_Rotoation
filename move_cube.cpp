@@ -80,9 +80,9 @@ protected:
             if(key_code == 54)
                 pitch = pitch - update2;
             if(key_code == 49)
-                yaw = yaw + update2;
+                roll = roll + update2;
             if(key_code == 48)
-                yaw = yaw - update2;
+                roll = roll - update2;
 
 
 
